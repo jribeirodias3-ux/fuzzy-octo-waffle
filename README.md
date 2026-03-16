@@ -1,6 +1,6 @@
 # fuzzy-octo-waffle
-git clone https://github.com/username/repo.git
 cd repo
+
 git checkout -b feature-branch
 
 # Commit 1
