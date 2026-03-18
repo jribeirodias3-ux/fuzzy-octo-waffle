@@ -29,3 +29,18 @@ git add file.txt
 git commit -m "Commit 5: Added fifth line to file.txt"
 
 git push origin feature-branch
+
+git checkout -b minha-feature
+
+# Fazer alterações no código
+echo "Nova funcionalidade" > feature.txt
+
+# Adicionar e commitar
+git add feature.txt
+git commit -m "Adiciona nova funcionalidade"
+
+# Enviar para o repositório remoto
+git push origin minha-feature
+
+git checkout main
+git pull origin main
