@@ -44,3 +44,40 @@ git push origin minha-feature
 
 git checkout main
 git pull origin main
+
+.github/workflows/ci.yml
+
+# Linguagem: YAML
+# Este workflow é acionado em push ou pull request para a branch main
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Passo 1: Checar o código do repositório
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+      # Passo 2: Configurar a linguagem (exemplo Node.js)
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    # Passo 3: Instalar dependências
+    - name: Install dependencies
+      run: npm install
+
+    # Passo 4: Rodar testes
+    - name: Run tests
+      run: npm test
