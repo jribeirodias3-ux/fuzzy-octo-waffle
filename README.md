@@ -81,3 +81,49 @@ jobs:
     # Passo 4: Rodar testes
     - name: Run tests
       run: npm test
+# language: YAML
+name: Continuous Deployment
+
+# Que ações disparam o workflow
+on:
+  push:
+    branches:
+      - main  # Executa CD ao fazer push na branch principal
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+
+steps:
+      # 1. Fazer checkout do código
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # 2. Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # 3. Instalar dependências
+      - name: Install Dependencies
+        run: npm install
+
+      # 4. Rodar testes
+      - name: Run Tests
+        run: npm test
+
+      # 5. Build do projeto
+      - name: Build Project
+        run: npm run build
+
+      # 6. Deploy para o servidor
+      - name: Deploy to Server via SSH
+        uses: easingthemes/ssh-deploy@v2
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          remote-user: ${{ secrets.REMOTE_USER }}
+          server-ip: ${{ secrets.SERVER_IP }}
+          remote-path: /var/www/seu-projeto
+          local-path: ./build
