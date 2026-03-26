@@ -127,3 +127,7 @@ steps:
           server-ip: ${{ secrets.SERVER_IP }}
           remote-path: /var/www/seu-projeto
           local-path: ./build
+
+git add .github/workflows/cd-workflow.yml
+git commit -m "Add GitHub Actions CD workflow"
+git push origin cd-setup
