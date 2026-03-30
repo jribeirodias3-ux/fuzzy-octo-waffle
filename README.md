@@ -32,14 +32,11 @@ git push origin feature-branch
 
 git checkout -b minha-feature
 
-# Fazer alterações no código
 echo "Nova funcionalidade" > feature.txt
 
-# Adicionar e commitar
 git add feature.txt
 git commit -m "Adiciona nova funcionalidade"
 
-# Enviar para o repositório remoto
 git push origin minha-feature
 
 git checkout main
@@ -48,7 +45,6 @@ git pull origin main
 .github/workflows/ci.yml
 
 # Linguagem: YAML
-# Este workflow é acionado em push ou pull request para a branch main
 name: CI
 
 on:
@@ -84,7 +80,6 @@ jobs:
 # language: YAML
 name: Continuous Deployment
 
-# Que ações disparam o workflow
 on:
   push:
     branches:
@@ -131,3 +126,17 @@ steps:
 git add .github/workflows/cd-workflow.yml
 git commit -m "Add GitHub Actions CD workflow"
 git push origin cd-setup
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY . /app
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+ENV PORT=8000
+
+EXPOSE 8000
+
+CMD ["python", "app.py"]
