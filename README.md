@@ -126,3 +126,19 @@ steps:
 git add .github/workflows/cd-workflow.yml
 git commit -m "Add GitHub Actions CD workflow"
 git push origin cd-setup
+
+FROM node:18
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+
+
