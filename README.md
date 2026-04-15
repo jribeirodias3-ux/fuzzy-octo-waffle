@@ -127,18 +127,36 @@ git add .github/workflows/cd-workflow.yml
 git commit -m "Add GitHub Actions CD workflow"
 git push origin cd-setup
 
-FROM node:18
+# language: YAML
+name: Build and Push Docker Image
 
-WORKDIR /app
+on:
+  push:
+    branches:
+      - main
 
-COPY package*.json ./
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
 
-RUN npm install
+    steps:
+      # 1. Checa o código do repositório
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-COPY . .
+      # 2. Loga no Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-EXPOSE 3000
+      # 3. Build da imagem Docker
+      - name: Build Docker Image
+        run: |
+          docker build -t meuusuario/minha-aplicacao:latest .
 
-CMD ["npm", "start"]
-
-
+# 4. Push da imagem para Docker Hub
+      - name: Push Docker Image
+        run: |
+          docker push meuusuario/minha-aplicacao:latest
