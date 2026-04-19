@@ -1,0 +1,23 @@
+# YAML
+name: Enviar alerta por e-mail
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  email-alert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enviar e-mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.seuprovedor.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USER }}
+          password: ${{ secrets.EMAIL_PASS }}
+          subject: "Alerta GitHub Actions"
+          to: "seuemail@dominio.com"
+          body: "Houve um push para a branch main."
+      
